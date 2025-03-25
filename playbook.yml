@@ -1,0 +1,23 @@
+---
+- name: Dummy Jenkins Ansible Playbook
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+
+    - name: Echo Hello World
+      ansible.builtin.shell: "echo Hello from Ansible"
+
+    - name: Wait for 2 seconds
+      ansible.builtin.pause:
+        seconds: 2
+
+    - name: Create a dummy file
+      ansible.builtin.file:
+        path: /tmp/jenkins-ansible-test.txt
+        state: touch
+
+    - name: Final debug message
+      ansible.builtin.debug:
+        msg: "Done with dummy run"
