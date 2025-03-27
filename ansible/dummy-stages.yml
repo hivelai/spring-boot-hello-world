@@ -1,0 +1,37 @@
+---
+- name: Dummy Ansible Playbook with Stages for Jenkins
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Stage 1 - Initialization
+      debug:
+        msg: "Stage 1: Initializing environment..."
+    - name: Wait for 2 seconds
+      pause:
+        seconds: 2
+
+    - name: Stage 2 - Checking system status
+      debug:
+        msg: "Stage 2: Simulating system check..."
+    - name: Wait for 2 seconds
+      pause:
+        seconds: 2
+
+    - name: Stage 3 - Performing dummy operation
+      debug:
+        msg: "Stage 3: Running a dummy operation..."
+    - name: Wait for 2 seconds
+      pause:
+        seconds: 2
+
+    - name: Stage 4 - Finalizing process
+      debug:
+        msg: "Stage 4: Finalizing everything..."
+    - name: Wait for 2 seconds
+      pause:
+        seconds: 2
+
+    - name: Stage 5 - Complete
+      debug:
+        msg: "All stages completed successfully!"
