@@ -20,6 +20,12 @@
   
       - name: Stage 3 - Maven Clean Install
         debug:
+          msg: "Starting Maven build process..."
+      - name: Wait for 3 minutes
+        pause:
+          minutes: 3
+      - name: Maven Build Complete
+        debug:
           msg: "Maven build completed successfully."
   
       - name: Stage 4 - Deploy to AWS
