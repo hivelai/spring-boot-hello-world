@@ -21,6 +21,9 @@
     - name: Stage 3 - Performing dummy operation
       debug:
         msg: "Stage 3: Running a dummy operation..."
+    - name: Intentionally failing task
+      fail:
+        msg: "This is an intentional failure for testing purposes"
     - name: Wait for 2 seconds
       pause:
         seconds: 2
