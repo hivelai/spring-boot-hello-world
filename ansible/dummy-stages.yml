@@ -1,66 +1,52 @@
 ---
-- name: Dummy Ansible Playbook with Stages for Jenkins
-  hosts: localhost
-  gather_facts: yes
-  vars:
-    start_time: "{{ ansible_date_time.iso8601 }}"
-    playbook_name: "dummy-stages.yml"
-
-  tasks:
-    - name: Stage 1 - Initialization
-      debug:
-        msg: "Stage 1: Initializing environment..."
-      register: init_result
-    - name: Wait for 2 seconds
-      pause:
-        seconds: 2
-      register: wait1_result
-
-    - name: Stage 2 - Checking system status
-      debug:
-        msg: "Stage 2: Simulating system check..."
-      register: check_result
-    - name: Wait for 2 seconds
-      pause:
-        seconds: 2
-      register: wait2_result
-
-    - name: Stage 3 - Performing dummy operation
-      debug:
-        msg: "Stage 3: Running a dummy operation..."
-      register: dummy_result
-    - name: Intentionally failing task
-      fail:
-        msg: "This is an intentional failure for testing purposes"
-      register: fail_result
-    - name: Wait for 2 seconds
-      pause:
-        seconds: 2
-      register: wait3_result
-
-    - name: Stage 4 - Finalizing process
-      debug:
-        msg: "Stage 4: Finalizing everything..."
-      register: finalize_result
-    - name: Wait for 2 seconds
-      pause:
-        seconds: 2
-      register: wait4_result
-
-    - name: Stage 5 - Complete
-      debug:
-        msg: "All stages completed successfully!"
-      register: complete_result
-
-    - name: Generate execution summary
-      debug:
-        msg: |
-          Playbook Execution Summary:
-          -------------------------
-          Playbook: {{ playbook_name }}
-          Start Time: {{ start_time }}
-          End Time: {{ ansible_date_time.iso8601 }}
-          Host: {{ inventory_hostname }}
-          Status: {{ 'FAILED' if fail_result is defined and fail_result.failed else 'SUCCESS' }}
-      register: summary_result
-      when: fail_result is defined or complete_result is defined
+  - name: Dummy Ansible Playbook with Stages for Jenkins
+    hosts: localhost
+    gather_facts: no
+  
+    tasks:
+      - name: Stage 1 - Initialization
+        debug:
+          msg: "Stage 1: Initializing environment..."
+        register: stage1_result
+  
+      - name: Wait for 2 seconds
+        pause:
+          seconds: 2
+  
+      - name: Stage 2 - Checking system status
+        debug:
+          msg: "Stage 2: Simulating system check..."
+        register: stage2_result
+  
+      - name: Wait for 2 seconds
+        pause:
+          seconds: 2
+  
+      - name: Stage 3 - Performing dummy operation
+        debug:
+          msg: "Stage 3: Running a dummy operation..."
+        register: stage3_result
+  
+      - name: Intentionally failing task
+        fail:
+          msg: "This is an intentional failure for testing purposes"
+        ignore_errors: yes
+        register: stage3_fail
+  
+      - name: Wait for 2 seconds
+        pause:
+          seconds: 2
+  
+      - name: Stage 4 - Finalizing process
+        debug:
+          msg: "Stage 4: Finalizing everything..."
+        register: stage4_result
+  
+      - name: Wait for 2 seconds
+        pause:
+          seconds: 2
+  
+      - name: Stage 5 - Complete
+        debug:
+          msg: "All stages completed successfully!"
+        register: stage5_result
