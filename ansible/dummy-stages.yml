@@ -13,24 +13,21 @@
         debug:
           msg: "Cleaning workspace..."
   
-      - name: Stage 2 - Maven Clean Install (Simulated Failure)
-        block:
-          - name: Running 'mvn clean install' (fail simulation)
-            fail:
-              msg: "Maven build failed due to missing dependencies."
-        when: true  # simulate failure by always triggering this block
+      - name: Stage 2 - Maven Clean Install (FAIL SIMULATED)
+        fail:
+          msg: "Maven build failed due to missing dependencies."
   
       - name: Stage 3 - Run Unit Tests
         debug:
           msg: "Running JUnit test cases..."
-        when: false  # Won't run because previous stage failed
+        when: false
   
       - name: Stage 4 - Deploy to AWS
         debug:
           msg: "Deploying app to AWS EC2..."
-        when: false  # Won’t run
+        when: false
   
       - name: Stage 5 - Deployment Complete
         debug:
           msg: "🎉 Deployment simulation finished!"
-        when: false  # Won’t run
+        when: false
