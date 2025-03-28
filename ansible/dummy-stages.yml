@@ -1,5 +1,5 @@
 ---
-  - name: Dummy Spring Boot CI/CD Pipeline with Simulated Failure
+  - name: Dummy Spring Boot CI/CD Pipeline with Mixed Outcomes
     hosts: localhost
     gather_facts: no
     become: no
@@ -7,27 +7,28 @@
     vars:
       app_name: springboot-app
       jar_file: target/app.jar
+      should_run_tests: false  # <-- Change this to true to run tests
   
     tasks:
-      - name: Stage 1 - Clean Workspace
+      - name: Stage 1 - Clean Workspace (Success)
         debug:
           msg: "Cleaning workspace..."
   
-      - name: Stage 2 - Maven Clean Install (FAIL SIMULATED)
+      - name: Stage 2 - Run Unit Tests (Simulated Skipped)
+        debug:
+          msg: "Running JUnit tests..."
+        when: should_run_tests  # <-- will be skipped because it's false
+  
+      - name: Stage 3 - Maven Clean Install (Fail Simulated)
         fail:
           msg: "Maven build failed due to missing dependencies."
   
-      - name: Stage 3 - Run Unit Tests
+      - name: Stage 4 - Deploy to AWS (Skipped due to previous fail)
         debug:
-          msg: "Running JUnit test cases..."
+          msg: "Deploying to AWS..."
         when: false
   
-      - name: Stage 4 - Deploy to AWS
-        debug:
-          msg: "Deploying app to AWS EC2..."
-        when: false
-  
-      - name: Stage 5 - Deployment Complete
+      - name: Stage 5 - Deployment Complete (Skipped)
         debug:
           msg: "🎉 Deployment simulation finished!"
         when: false
