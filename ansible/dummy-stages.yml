@@ -1,52 +1,52 @@
 ---
-  - name: Dummy Ansible Playbook with Stages for Jenkins
+  - name: Dummy Spring Boot CI/CD Pipeline Simulation
     hosts: localhost
     gather_facts: no
+    become: no
+  
+    vars:
+      app_name: springboot-app
+      jar_file: target/app.jar
+      jar_dest: /opt/{{ app_name }}/{{ jar_file }}
+      service_file: "{{ app_name }}.service"
   
     tasks:
-      - name: Stage 1 - Initialization
+      - name: Stage 1 - Clean Workspace
         debug:
-          msg: "Stage 1: Initializing environment..."
-        register: stage1_result
+          msg: "Cleaning workspace... (would delete target/, temp files, etc.)"
   
-      - name: Wait for 2 seconds
-        pause:
-          seconds: 2
-  
-      - name: Stage 2 - Checking system status
+      - name: Stage 2 - Maven Clean Install
         debug:
-          msg: "Stage 2: Simulating system check..."
-        register: stage2_result
+          msg: "Running 'mvn clean install'... (would build the Spring Boot JAR)"
   
-      - name: Wait for 2 seconds
-        pause:
-          seconds: 2
-  
-      - name: Stage 3 - Performing dummy operation
+      - name: Stage 3 - Run Unit Tests
         debug:
-          msg: "Stage 3: Running a dummy operation..."
-        register: stage3_result
+          msg: "Executing JUnit test cases... (would run 'mvn test')"
   
-      - name: Intentionally failing task
-        fail:
-          msg: "This is an intentional failure for testing purposes"
-        ignore_errors: yes
-        register: stage3_fail
-  
-      - name: Wait for 2 seconds
-        pause:
-          seconds: 2
-  
-      - name: Stage 4 - Finalizing process
+      - name: Stage 4 - Archive Build Artifacts
         debug:
-          msg: "Stage 4: Finalizing everything..."
-        register: stage4_result
+          msg: "Archiving JAR and logs... (would store target/app.jar, logs)"
   
-      - name: Wait for 2 seconds
-        pause:
-          seconds: 2
-  
-      - name: Stage 5 - Complete
+      - name: Stage 5 - Upload to S3 (Simulated)
         debug:
-          msg: "All stages completed successfully!"
-        register: stage5_result
+          msg: "Uploading app.jar to S3 bucket... (simulated step)"
+  
+      - name: Stage 6 - SSH to EC2 & Deploy (Simulated)
+        debug:
+          msg: "Simulating SSH into EC2 and copying JAR to {{ jar_dest }}"
+  
+      - name: Stage 7 - Create/Update systemd Service (Simulated)
+        debug:
+          msg: "Simulating creation or update of /etc/systemd/system/{{ service_file }}"
+  
+      - name: Stage 8 - Restart Spring Boot Service (Simulated)
+        debug:
+          msg: "Simulating 'systemctl restart {{ app_name }}' on EC2"
+  
+      - name: Stage 9 - Post-Deploy Health Check (Simulated)
+        debug:
+          msg: "Simulating health check on http://ec2-public-ip:8080/actuator/health"
+  
+      - name: Stage 10 - Deployment Complete
+        debug:
+          msg: "🎉 Deployment simulation finished for {{ app_name }}!"
