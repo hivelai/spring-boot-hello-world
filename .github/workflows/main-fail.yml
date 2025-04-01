@@ -1,0 +1,48 @@
+name: Dummy CI/CD Pipeline
+
+# Workflow trigger:
+# - Manual trigger via 'workflow_dispatch' only
+on:
+  workflow_dispatch:
+
+# Global environment variables for consistency across jobs.
+env:
+  SERVICE_NAME: dummy-service
+
+jobs:
+  dummy-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stage 1 - Checkout
+        run: |
+          echo "Checking out repository..."
+          sleep 5
+
+      - name: Stage 2 - Build
+        run: |
+          echo "Building application..."
+          sleep 5
+
+      - name: Stage 3 - Test
+        run: |
+          echo "Running tests..."
+          echo "❌ Test failed: Unit test 'UserServiceTest.testCreateUser' failed"
+          echo "Expected: User created successfully"
+          echo "Actual: Database connection timeout"
+          sleep 5
+          exit 1  # Intentionally fail the stage
+
+      - name: Stage 4 - Deploy
+        run: |
+          echo "Deploying application..."
+          sleep 5
+
+      - name: Stage 5 - Health Check
+        run: |
+          echo "Performing health check..."
+          sleep 5
+
+      - name: Stage 6 - Complete
+        run: |
+          echo "🎉 Pipeline completed successfully!"
+          echo "Build URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
