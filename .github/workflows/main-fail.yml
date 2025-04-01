@@ -1,4 +1,4 @@
-name: Dummy CI/CD Pipeline
+name: Dummy CI/CD Pipeline fail test
 
 # Workflow trigger:
 # - Manual trigger via 'workflow_dispatch' only
