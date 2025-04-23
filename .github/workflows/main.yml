@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Dummy Build Stage
     steps:
-      - name: Checkout Code
+      - name: Checkout Code (Dummy Build)
         uses: actions/checkout@v3
 
-      - name: Build (Dummy)
+      - name: Build Step (Dummy Build)
         run: |
           echo "🏗️ Building dummy service..."
           sleep 2
@@ -27,10 +27,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Dummy Analysis Stage
     steps:
-      - name: Checkout Code
+      - name: Checkout Code (Dummy Analysis)
         uses: actions/checkout@v3
 
-      - name: Analyze Code (Dummy)
+      - name: Analyze Code (Dummy Analysis)
         run: |
           echo "🔍 Running dummy code analysis..."
           sleep 2
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Dummy Pre-Deploy Stage
     steps:
-      - name: Setup Pre-Deploy Config (Dummy)
+      - name: Setup Configs (Dummy Pre-Deploy)
         run: |
           echo "⚙️ Setting up dummy configs for deployment..."
           sleep 2
@@ -50,12 +50,12 @@ jobs:
     runs-on: ubuntu-latest
     name: Dummy Deploy Stage
     steps:
-      - name: Deploy to Environment (Dummy)
+      - name: Deploy Service (Dummy Deploy)
         run: |
           echo "🚀 Deploying dummy service to production..."
           sleep 2
 
-      - name: ✅ Deployment Complete
+      - name: Mark as Complete (Dummy Deploy)
         run: |
           echo "🎉 Dummy deployment completed!"
           echo "Build URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
