@@ -17,17 +17,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Build Step (Dummy)
+      - name: Build (Dummy)
         run: |
-          echo "Building dummy project..."
-          sleep 3
-
-      - name: Upload Dummy Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dummy-artifact
-          path: dummy-output/
-          retention-days: 1
+          echo "🏗️ Building dummy service..."
+          sleep 2
 
   dummy-analysis:
     needs: dummy-build
@@ -37,51 +30,32 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Download Dummy Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dummy-artifact
-          path: dummy-output/
-
-      - name: Run Analysis (Dummy)
+      - name: Analyze Code (Dummy)
         run: |
-          echo "Running dummy static analysis..."
+          echo "🔍 Running dummy code analysis..."
           sleep 2
 
   dummy-predeploy:
     needs: dummy-analysis
     runs-on: ubuntu-latest
-    name: Dummy Pre-Deploy
+    name: Dummy Pre-Deploy Stage
     steps:
-      - name: Prepare Configs (Dummy)
+      - name: Setup Pre-Deploy Config (Dummy)
         run: |
-          echo "Preparing dummy deployment configs..."
+          echo "⚙️ Setting up dummy configs for deployment..."
           sleep 2
-
-      - name: Upload Dummy Config
-        uses: actions/upload-artifact@v4
-        with:
-          name: dummy-deploy-config
-          path: config/dummy-config.properties
-          retention-days: 1
 
   dummy-deploy:
     needs: dummy-predeploy
     runs-on: ubuntu-latest
     name: Dummy Deploy Stage
     steps:
-      - name: Download Config (Dummy)
-        uses: actions/download-artifact@v4
-        with:
-          name: dummy-deploy-config
-          path: config/
-
       - name: Deploy to Environment (Dummy)
         run: |
-          echo "Deploying dummy service to production environment..."
-          sleep 3
+          echo "🚀 Deploying dummy service to production..."
+          sleep 2
 
-      - name: 🎉 Deployment Done
+      - name: ✅ Deployment Complete
         run: |
-          echo "✅ Dummy deployment completed!"
+          echo "🎉 Dummy deployment completed!"
           echo "Build URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
