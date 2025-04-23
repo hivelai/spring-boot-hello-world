@@ -1,44 +1,87 @@
 name: Dummy CI/CD Pipeline
 
-# Workflow trigger:
-# - Manual trigger via 'workflow_dispatch' only
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
-# Global environment variables for consistency across jobs.
 env:
   SERVICE_NAME: dummy-service
 
 jobs:
-  dummy-pipeline:
+  dummy-build:
     runs-on: ubuntu-latest
+    name: Dummy Build Stage
     steps:
-      - name: Stage 1 - Checkout
-        run: |
-          echo "Checking out repository..."
-          sleep 5
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      - name: Stage 2 - Build
+      - name: Build Step (Dummy)
         run: |
-          echo "Building application..."
-          sleep 5
+          echo "Building dummy project..."
+          sleep 3
 
-      - name: Stage 3 - Test
-        run: |
-          echo "Running tests..."
-          sleep 5
+      - name: Upload Dummy Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dummy-artifact
+          path: dummy-output/
+          retention-days: 1
 
-      - name: Stage 4 - Deploy
-        run: |
-          echo "Deploying application..."
-          sleep 5
+  dummy-analysis:
+    needs: dummy-build
+    runs-on: ubuntu-latest
+    name: Dummy Analysis Stage
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      - name: Stage 5 - Health Check
-        run: |
-          echo "Performing health check..."
-          sleep 5
+      - name: Download Dummy Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dummy-artifact
+          path: dummy-output/
 
-      - name: Stage 6 - Complete
+      - name: Run Analysis (Dummy)
         run: |
-          echo "🎉 Pipeline completed successfully!"
+          echo "Running dummy static analysis..."
+          sleep 2
+
+  dummy-predeploy:
+    needs: dummy-analysis
+    runs-on: ubuntu-latest
+    name: Dummy Pre-Deploy
+    steps:
+      - name: Prepare Configs (Dummy)
+        run: |
+          echo "Preparing dummy deployment configs..."
+          sleep 2
+
+      - name: Upload Dummy Config
+        uses: actions/upload-artifact@v4
+        with:
+          name: dummy-deploy-config
+          path: config/dummy-config.properties
+          retention-days: 1
+
+  dummy-deploy:
+    needs: dummy-predeploy
+    runs-on: ubuntu-latest
+    name: Dummy Deploy Stage
+    steps:
+      - name: Download Config (Dummy)
+        uses: actions/download-artifact@v4
+        with:
+          name: dummy-deploy-config
+          path: config/
+
+      - name: Deploy to Environment (Dummy)
+        run: |
+          echo "Deploying dummy service to production environment..."
+          sleep 3
+
+      - name: 🎉 Deployment Done
+        run: |
+          echo "✅ Dummy deployment completed!"
           echo "Build URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
